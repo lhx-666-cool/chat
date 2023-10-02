@@ -410,7 +410,7 @@ function hangup() {
     }
 }
 
-zeroRTCEngine = new ZeroRTCEngine("ws://127.0.0.1:8080/");
+zeroRTCEngine = new ZeroRTCEngine("ws://39.99.137.136:8080/");
 zeroRTCEngine.createWebsocket();
 
 document.getElementById('joinBtn').onclick = function () {
