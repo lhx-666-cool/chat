@@ -91,6 +91,7 @@ function createPeerConnection() {
         var receiveChannel = event.channel;
         console.log('ok');
         receiveChannel.onmessage = function (e) {
+            console.log("e", e.data);
             if (downloadInProgress === true) {
                 progressDownload(e.data);
             }else {
@@ -159,17 +160,17 @@ function startDownload(data) {
     incomingFileData = [];
     bytesReceived = 0;
     downloadInProgress = true;
-    console.log(incomingFileInfo);
+    console.log("info", incomingFileInfo);
 }
 
 var testdata;
 function progressDownload(data) {
     testdata = data;
     console.log(bytesReceived);
-    bytesReceived += data.byteLength;
+    bytesReceived += data.size;
     incomingFileData.push(data);
     console.log(bytesReceived);
-    if (bytesReceived === incomingFileInfo.filesize) {
+    if (bytesReceived === incomingFileInfo.fileSize) {
         endDownload();
     }
 }
@@ -409,7 +410,7 @@ function hangup() {
     }
 }
 
-zeroRTCEngine = new ZeroRTCEngine("ws://39.99.137.136:8080/");
+zeroRTCEngine = new ZeroRTCEngine("ws://127.0.0.1:8080/");
 zeroRTCEngine.createWebsocket();
 
 document.getElementById('joinBtn').onclick = function () {
