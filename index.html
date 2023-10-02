@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+    <head>
+        <title>局域网互联</title>
+        
+        <link href="//unpkg.com/layui@2.8.17/dist/css/layui.css" rel="stylesheet">
+        <link href="./css/index.css" rel="stylesheet">
+        <script src="//unpkg.com/layui@2.8.17/dist/layui.js"></script>
+    </head>
+    <!-- <div id="buttons">
+        <input id="zero-roomId" type="text" placeholder="请输入房间ID" maxlength="40"/>
+        <button id="joinBtn" type="button">加入</button>
+        <button id="leaveBtn" type="button">离开</button>    
+    </div>
+    <div id="videos">
+        <video id="localVideo" autoplay muted playsinline>本地窗口</video>
+        <video id="remoteVideo" autoplay playsinline>远端窗口</video>
+    </div>
+    <div class="send">
+        <input id="sendtext" type="text" placeholder="" maxlength="40"/>
+        <button id="sendbtn">发送</button>
+    </div> -->
+    <div class="mainbox">
+        <div class="title">局域网互联</div>
+        <div class="connectcode">
+            <div class="des">请输入连接码</div>
+            <div class="input layui-input-inline layui-input-wrap">
+                <input id="zero-roomId" maxlength="6" type="tel" name="phone" autocomplete="off" lay-affix="clear" class="layui-input demo-phone">
+            </div>
+            <button id="joinBtn" type="button" class="layui-btn layui-bg-orange">确定</button>
+            <button style="margin-left: 1px;" id="leaveBtn" type="button" class="layui-btn layui-bg-red">离开</button>
+        </div>
+        <div class="sendbox">
+            <div class="inpbox">
+                <textarea id="sendtext" placeholder="请输入内容" class="layui-textarea"></textarea>
+            </div>
+            <div class="btnbox">
+                <button id="sendbtn" type="button" class="layui-btn layui-bg-orange">发送</button>
+                <br>
+                <button id="morebtn" style="margin-top: 23px;" type="button" class="layui-btn layui-bg-orange">更多</button>
+                <input type="file" id="fileinp" style="display: none;">
+            </div>
+        </div>
+        <div class="chatbox">
+            <br>
+
+        </div>
+    </div>
+    <script src="js/main.js"></script>
+</html>
