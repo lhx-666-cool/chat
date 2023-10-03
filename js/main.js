@@ -152,13 +152,13 @@ function readNextChunk() {
 }
 
 var speed = 30;
-var cnt = 0;
+// var cnt = 0;
 fileReader.onload = function () {
-    cnt++;
-    if (cnt >= 30) {
-        cnt = 0;
-        speed -= 20;
-    }
+    // cnt++;
+    // if (cnt >= 30) {
+    //     cnt = 0;
+    //     speed -= 20;
+    // }
     console.log({
         type: 'file',
         data: fileReader.result,
@@ -169,7 +169,7 @@ fileReader.onload = function () {
         currentChunk ++;
     } catch (err) {
         console.log(err);
-        speed += 20;
+        // speed += 20;
     }
     if (BYTES_PRE_CHUNK * currentChunk < file.size) {
         setTimeout(readNextChunk, speed);
