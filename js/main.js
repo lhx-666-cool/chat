@@ -15,7 +15,7 @@ const SIGNAL_TYPE_PEER_LEAVE = "peer-leave";
 const SIGNAL_TYPE_OFFER = "offer";
 const SIGNAL_TYPE_ANSWER = "answer";
 const SIGNAL_TYPE_CANDIDATE = "candidate";
-const BYTES_PRE_CHUNK = 1100;
+const BYTES_PRE_CHUNK = 262144;
 
 var localUserId = Math.random().toString(36).substr(2); // 本地uid
 var remoteUserId = -1;      // 对端
@@ -37,8 +37,11 @@ var incomingFileInfo;
 var incomingFileData;
 var bytesReceived;
 var downloadInProgress = false;
-
+var element = layui.element;
+var filedisplay = document.querySelector(".filedisplay");
+var filedes = document.querySelector(".filedes");
 var layer = layui.layer;
+var loading;
 function handleIceCandidate(event) {
     console.info("handleIceCandidate");
     if (event.candidate) {
@@ -88,6 +91,7 @@ function createPeerConnection() {
     pc.ondatachannel = function (event) {
         // alert("加入成功")
         layer.msg("加入成功");
+        layer.close(loading);
         var receiveChannel = event.channel;
         console.log('ok');
         receiveChannel.onmessage = function (e) {
@@ -129,6 +133,9 @@ function createPeerConnection() {
             size: file.size,
         }));
         readNextChunk();
+        filedisplay.style.display = 'block';
+        element.progress('filepro', '0%');
+        filedes.innerText = "文件" + file.name + "正在发送";
     }
 }
 
@@ -148,6 +155,10 @@ fileReader.onload = function() {
     currentChunk ++;
     if (BYTES_PRE_CHUNK * currentChunk < file.size) {
         readNextChunk();
+        var fileprogress = BYTES_PRE_CHUNK * currentChunk / file.size;
+        element.progress('filepro', fileprogress * 100 + '%');
+    }else {
+        filedisplay.style.display = 'none';
     }
 }
 
@@ -157,6 +168,9 @@ function startDownload(data) {
         fileName: data.name,
         fileSize: data.size,
     }
+    filedisplay.style.display = 'block';
+    element.progress('filepro', '0%');
+    filedes.innerText = '文件' + data.name + '正在下载';
     incomingFileData = [];
     bytesReceived = 0;
     downloadInProgress = true;
@@ -167,7 +181,12 @@ var testdata;
 function progressDownload(data) {
     testdata = data;
     console.log(bytesReceived);
-    bytesReceived += data.size;
+    if (data.size != undefined) {
+        bytesReceived += data.size;
+    }else {
+        bytesReceived += data.byteLength;
+    }
+    element.progress('filepro', bytesReceived / incomingFileInfo.fileSize * 100 + '%');
     incomingFileData.push(data);
     console.log(bytesReceived);
     if (bytesReceived === incomingFileInfo.fileSize) {
@@ -175,6 +194,7 @@ function progressDownload(data) {
     }
 }
 function endDownload() {
+    filedisplay.style.display = 'none';
     console.log("incoming", incomingFileData);
     downloadInProgress = false;
     var blob = new window.Blob(incomingFileData);
@@ -399,11 +419,10 @@ function doLeave() {
     zeroRTCEngine.sendMessage(message);
     console.info("doLeave message: " + message);
     hangup();
+    location.reload();
 }
 
 function hangup() {
-    localVideo.srcObject = null;
-    remoteVideo.srcObject = null;
     if(pc != null) {
         pc.close();
         pc = null;
@@ -419,6 +438,12 @@ document.getElementById('joinBtn').onclick = function () {
         alert("请输入房间ID");
         return;
     }
+    $(".tips").css("display", 'none');
+    loading = layer.msg('正在等待连接，长时间未成功请刷新网页', {
+        icon: 16,
+        shade: 0.7,
+        time: 0,
+    })
     console.log("加入按钮被点击, roomId: " + roomId);
     // 初始化本地码流
     // initLocalStream();
@@ -473,3 +498,19 @@ function scoll(div) {
     console.log(parseInt(height));
     chatbox.scroll(0, 1e9);
 }
+
+$.ajax({
+    url: 'https://www.mxnzp.com/api/ip/self',
+    method: 'get',
+    dataType: 'json',
+    data: {
+        app_id: 'skrpjfqalfm8mukx',
+        app_secret: 'ufdorV2xzuBHsvbgJv4QX97mSXWiBo6V',
+    },
+    success: function(msg) {
+        document.querySelector(".ip").innerText = msg.data.ip;
+    }
+})
+
+var random = Math.random().toString(36).substring(3, 7);
+$("#zero-roomId")[0].value = random;
