@@ -155,9 +155,9 @@ var speed = 30;
 var cnt = 0;
 fileReader.onload = function () {
     cnt++;
-    if (cnt >= 100) {
+    if (cnt >= 30) {
         cnt = 0;
-        speed = 30;
+        speed -= 20;
     }
     console.log({
         type: 'file',
