@@ -79,6 +79,12 @@ function handleIceConnectionStateChange() {
     }
 }
 
+function sleep(d){
+    for (var i = 0; i < d; i++) {
+        Math.sqrt(i) * Math.pow(i, i);
+    }
+}
+
 
 function createPeerConnection() {
 
@@ -145,9 +151,14 @@ function readNextChunk() {
     fileReader.readAsArrayBuffer(file.slice(start, end));
 }
 
-var speed = 15;
-
-fileReader.onload = function() {
+var speed = 30;
+var cnt = 0;
+fileReader.onload = function () {
+    cnt++;
+    if (cnt >= 100) {
+        cnt = 0;
+        speed = 30;
+    }
     console.log({
         type: 'file',
         data: fileReader.result,
@@ -155,11 +166,11 @@ fileReader.onload = function() {
     });
     try {
         sendChannel.send(fileReader.result);
+        currentChunk ++;
     } catch (err) {
         console.log(err);
-        speed += 30;
+        speed += 20;
     }
-    currentChunk ++;
     if (BYTES_PRE_CHUNK * currentChunk < file.size) {
         setTimeout(readNextChunk, speed);
         var fileprogress = BYTES_PRE_CHUNK * currentChunk / file.size;
@@ -168,7 +179,6 @@ fileReader.onload = function() {
         filedisplay.style.display = 'none';
     }
 }
-
 
 function startDownload(data) {
 
