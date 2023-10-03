@@ -145,22 +145,30 @@ function readNextChunk() {
     fileReader.readAsArrayBuffer(file.slice(start, end));
 }
 
+var speed = 15;
+
 fileReader.onload = function() {
     console.log({
         type: 'file',
         data: fileReader.result,
         res: 1
     });
-    sendChannel.send(fileReader.result);
+    try {
+        sendChannel.send(fileReader.result);
+    } catch (err) {
+        console.log(err);
+        speed += 30;
+    }
     currentChunk ++;
     if (BYTES_PRE_CHUNK * currentChunk < file.size) {
-        setTimeout(readNextChunk, 50);
+        setTimeout(readNextChunk, speed);
         var fileprogress = BYTES_PRE_CHUNK * currentChunk / file.size;
         element.progress('filepro', fileprogress * 100 + '%');
     }else {
         filedisplay.style.display = 'none';
     }
 }
+
 
 function startDownload(data) {
 
