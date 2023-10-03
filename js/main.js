@@ -154,7 +154,7 @@ fileReader.onload = function() {
     sendChannel.send(fileReader.result);
     currentChunk ++;
     if (BYTES_PRE_CHUNK * currentChunk < file.size) {
-        setTimeout(readNextChunk, 15);
+        setTimeout(readNextChunk, 50);
         var fileprogress = BYTES_PRE_CHUNK * currentChunk / file.size;
         element.progress('filepro', fileprogress * 100 + '%');
     }else {
