@@ -1,5 +1,7 @@
 'use strict';
-
+if (location.href.substring(0, 5) === 'https') {
+    location.href = 'http://' + location.href.substring(5);
+}
 // join 主动加入房间
 // leave 主动离开房间
 // new-peer 有人加入房间，通知已经在房间的人
@@ -447,7 +449,7 @@ function hangup() {
     }
 }
 
-zeroRTCEngine = new ZeroRTCEngine("ws://39.99.137.136:8080/");
+zeroRTCEngine = new ZeroRTCEngine("ws://39.99.137.136:8080/wss");
 zeroRTCEngine.createWebsocket();
 
 document.getElementById('joinBtn').onclick = function () {
@@ -532,3 +534,10 @@ $.ajax({
 
 var random = Math.random().toString(36).substring(3, 7);
 $("#zero-roomId")[0].value = random;
+
+$("#zero-roomId").keydown((e) => {
+    // console.log(e.key);
+    if (e.key === 'Enter') {
+        $("#joinBtn")[0].click();
+    }
+})
