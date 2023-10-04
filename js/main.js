@@ -1,7 +1,7 @@
 'use strict';
-if (location.href.substring(0, 5) === 'https') {
-    location.href = 'http://' + location.href.substring(5);
-}
+// if (location.href.substring(0, 5) === 'https') {
+//     location.href = 'http://' + location.href.substring(5);
+// }
 // join 主动加入房间
 // leave 主动离开房间
 // new-peer 有人加入房间，通知已经在房间的人
@@ -449,7 +449,7 @@ function hangup() {
     }
 }
 
-zeroRTCEngine = new ZeroRTCEngine("ws://39.99.137.136:8080/wss");
+zeroRTCEngine = new ZeroRTCEngine("wss://www.xdu-inspur.club/wss");
 zeroRTCEngine.createWebsocket();
 
 document.getElementById('joinBtn').onclick = function () {
