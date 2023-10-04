@@ -541,3 +541,24 @@ $("#zero-roomId").keydown((e) => {
         $("#joinBtn")[0].click();
     }
 })
+
+var ctrldown = false;
+var enterdown = false;
+$("#sendtext").keydown((e) => {
+    if (e.key === 'Enter') {
+        enterdown = true;
+    }
+    if (e.key === 'Control') {
+        ctrldown = true;
+    }
+})
+$("#sendtext").keyup((e) => {
+    console.log(enterdown, ctrldown);
+    if (enterdown && ctrldown) {
+        var text = $("#sendtext")[0].value;
+        text = text.substring(0, text.length - 1);
+        $("#sendtext")[0].value = text;
+        $("#sendbtn")[0].click();
+    }
+    enterdown = ctrldown = false;
+})
