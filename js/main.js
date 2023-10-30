@@ -96,7 +96,7 @@ function createPeerConnection() {
             {
                 "urls": [
                     "stun:23.21.150.121:3478",
-                    "stun.bistri.com:80"
+                    "stun:stun.bistri.com:80"
                 ]
             },
             {
