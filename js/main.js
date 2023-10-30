@@ -114,6 +114,7 @@ function createPeerConnection() {
                     "turn:turn.bistri.com:80"
                 ],
                 username: 'homeo',
+                credential: 'homeo',
             },
         ]
     };
