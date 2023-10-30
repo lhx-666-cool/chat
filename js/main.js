@@ -1,7 +1,5 @@
 'use strict';
-// if (location.href.substring(0, 5) === 'https') {
-//     location.href = 'http://' + location.href.substring(5);
-// }
+
 // join 主动加入房间
 // leave 主动离开房间
 // new-peer 有人加入房间，通知已经在房间的人
@@ -89,9 +87,18 @@ function sleep(d){
 
 
 function createPeerConnection() {
+    var defaultConfiguration = {  
+        iceTransportPolicy:"all",
+        iceServers: [
+            {
+                "urls": [
+                    "stun:23.21.150.121:3478"
+                ]
+            }
+        ]
+    };
 
-
-    pc = new RTCPeerConnection();
+    pc = new RTCPeerConnection(defaultConfiguration);
     pc.onicecandidate = handleIceCandidate;
     pc.onconnectionstatechange = handleConnectionStateChange;
     pc.oniceconnectionstatechange = handleIceConnectionStateChange
@@ -153,7 +160,7 @@ function readNextChunk() {
     fileReader.readAsArrayBuffer(file.slice(start, end));
 }
 
-var speed = 30;
+var speed = 50;
 // var cnt = 0;
 fileReader.onload = function () {
     // cnt++;
@@ -449,7 +456,7 @@ function hangup() {
     }
 }
 
-zeroRTCEngine = new ZeroRTCEngine("wss://www.xdu-inspur.club/wss");
+zeroRTCEngine = new ZeroRTCEngine("ws://39.99.137.136:8080/");
 zeroRTCEngine.createWebsocket();
 
 document.getElementById('joinBtn').onclick = function () {
@@ -534,31 +541,3 @@ $.ajax({
 
 var random = Math.random().toString(36).substring(3, 7);
 $("#zero-roomId")[0].value = random;
-
-$("#zero-roomId").keydown((e) => {
-    // console.log(e.key);
-    if (e.key === 'Enter') {
-        $("#joinBtn")[0].click();
-    }
-})
-
-var ctrldown = false;
-var enterdown = false;
-$("#sendtext").keydown((e) => {
-    if (e.key === 'Enter') {
-        enterdown = true;
-    }
-    if (e.key === 'Control') {
-        ctrldown = true;
-    }
-})
-$("#sendtext").keyup((e) => {
-    console.log(enterdown, ctrldown);
-    if (enterdown && ctrldown) {
-        var text = $("#sendtext")[0].value;
-        text = text.substring(0, text.length - 1);
-        $("#sendtext")[0].value = text;
-        $("#sendbtn")[0].click();
-    }
-    enterdown = ctrldown = false;
-})
