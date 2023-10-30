@@ -97,7 +97,12 @@ function createPeerConnection() {
                 "urls": [
                     "stun:23.21.150.121:3478"
                 ]
-            }
+            },
+            {
+                "urls": [
+                    "turn:23.21.150.121:3478",
+                ]
+            },
         ]
     };
     
