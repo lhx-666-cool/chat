@@ -104,9 +104,9 @@ function createPeerConnection() {
                 credential: 'free' 
             },
             {
-                urls: 'turn:freeturn.net:3478', 
-                username: 'free', 
-                credential: 'free' 
+                urls: 'turn:8.130.30.237:3478', 
+                username: 'hxzzz', 
+                credential: 'qazWSX123a,,' 
             } 
         ]
     };
