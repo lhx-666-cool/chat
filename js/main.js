@@ -99,10 +99,6 @@ function createPeerConnection() {
                     "stun:stun.bistri.com:80"
                 ]
             },
-            {   urls: 'turns:freeturn.tel:5349', 
-                username: 'free', 
-                credential: 'free' 
-            },
             {
                 urls: 'turn:8.130.30.237:3478', 
                 username: 'hxzzz', 
