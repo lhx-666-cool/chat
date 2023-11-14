@@ -100,9 +100,9 @@ function createPeerConnection() {
                 ]
             },
             {
-                urls: 'turn:8.130.30.237:3478', 
+                urls: 'turn:39.99.137.136:3478', 
                 username: 'hxzzz', 
-                credential: 'qazWSX123a,,' 
+                credential: '...,,,!!!???999' 
             } 
         ]
     };
